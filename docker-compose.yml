@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: javastore-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+
+  db-identity:
+    image: postgres:15-alpine
+    container_name: javastore-db-identity
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: identity_db
+    ports:
+      - "5435:5432"
+
+  db-catalog:
+    image: postgres:15-alpine
+    container_name: javastore-db-catalog
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: catalog_db
+    ports:
+      - "5433:5432"
+
+  db-orders:
+    image: postgres:15-alpine
+    container_name: javastore-db-orders
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: orders_db
+    ports:
+      - "5434:5432"
