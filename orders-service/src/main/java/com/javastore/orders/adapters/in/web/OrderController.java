@@ -16,7 +16,12 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+    public ResponseEntity<Order> createOrder(
+            @RequestBody Order order,
+            @RequestHeader(value = "X-User-Email", required = false) String userEmailFromGateway) {
+
+        order.setUserEmail(userEmailFromGateway);
+
         Order createdOrder = createOrderUseCase.create(order);
         return ResponseEntity.ok(createdOrder);
     }

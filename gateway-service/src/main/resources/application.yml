@@ -7,17 +7,24 @@ spring:
   cloud:
     gateway:
       routes:
+        # Rota de Login/Registro: SEMPRE LIBERADA
         - id: identity-service
           uri: http://localhost:8081
           predicates:
             - Path=/api/users/**
 
+        # Rota de Produtos: PRECISA DE TOKEN
         - id: catalog-service
           uri: http://localhost:8082
           predicates:
             - Path=/api/products/**
+          filters:
+            - AuthenticationFilter
 
+        # Rota de Pedidos: PRECISA DE TOKEN
         - id: orders-service
           uri: http://localhost:8083
           predicates:
             - Path=/api/orders/**
+          filters:
+            - AuthenticationFilter
